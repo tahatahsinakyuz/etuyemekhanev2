@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
@@ -9,12 +11,13 @@ app.use(bodyParser.json());
 
 // Veritabanı bağlantısı ayarları
 const dbConfig = {
-    host: '127.0.0.1', // Localhost yerine 127.0.0.1 kullan
-    user: 'root',
-    password: 'Sanane338070?',
-    database: 'yemekhane_sistemi',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     timezone: '+03:00'
 };
+
 app.listen(3000, '0.0.0.0', () => {
     console.log("Sunucu çalışıyor: http://0.0.0.0:3000");
 });
