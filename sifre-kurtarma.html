@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şifre Kurtarma</title>
+    <link rel="stylesheet" href="giris.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Şifre Kurtarma</h1>
+        <form id="passwordRecoveryForm">
+            <label for="email">E-posta</label>
+            <input type="email" id="email" placeholder="E-posta adresinizi girin" required>
+            
+            <button type="submit">Şifreyi Sıfırla</button>
+
+            <p id="info-message" style="color: green; display: none;">E-posta adresinize şifre sıfırlama bağlantısı gönderildi!</p>
+        </form>
+    </div>
+
+    <script>
+        // Şifre Kurtarma İşlemi
+        document.getElementById('passwordRecoveryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch(`${API_URL}/api/sifre-kurtarma`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById("info-message").style.display = "block";
+                } else {
+                    alert("E-posta adresi bulunamadı!");
+                }
+            } catch (error) {
+                console.error("Sunucu hatası:", error);
+                alert("Sunucu hatası! Daha sonra deneyin.");
+            }
+        });
+    </script>
+</body>
+</html>

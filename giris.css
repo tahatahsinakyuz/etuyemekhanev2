@@ -1,0 +1,150 @@
+/* Genel Ayarlar */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+}
+
+/* Giriş Kutusu */
+.login-container {
+    width: 350px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    text-align: center;
+}
+
+/* Başlık */
+h1 {
+    font-size: 24px;
+    color: #302b63;
+    margin-bottom: 20px;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Etiketler */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    display: block;
+}
+
+/* Input Alanları */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    background: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #302b63;
+}
+
+/* Şifre Kutusu ve Göz Simgesi */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Sağda göz simgesi için boşluk */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: url('https://cdn-icons-png.flaticon.com/512/709/709612.png') no-repeat center;
+    background-size: contain;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.password-toggle:hover {
+    opacity: 1;
+}
+
+.password-toggle.show {
+    background: url('https://cdn-icons-png.flaticon.com/512/709/709769.png') no-repeat center;
+    background-size: contain;
+}
+
+/* Giriş Butonu */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #302b63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #573b8a;
+}
+
+/* Şifremi Unuttum */
+.forgot-password {
+    margin-top: 20px; /* Yukarıdan boşluk */
+    font-size: 14px;
+    color: #302b63;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block; /* Satır bazlı yerleştirme */
+    text-align: center;
+}
+
+.forgot-password:hover {
+    color: #573b8a;
+}
+
+
+/* Hata Mesajı */
+#error-message {
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+    color: red;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
