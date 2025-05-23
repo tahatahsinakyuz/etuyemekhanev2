@@ -1,5 +1,5 @@
 // API URL Tanımı
-const API_URL = "http://52.87.183.104:3000";
+const API_URL = "https://etuyemekhanev2.onrender.com";
 
-// API_URL'i dışa aktar (Opsiyonel, modül sistemini kullanıyorsan)
+// API_URL'i dışa aktar (Opsiyonel, modül sistemi kullanıyorsan)
 export { API_URL };
