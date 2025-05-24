@@ -1,4 +1,3 @@
-// API URL Tanımı
 import { API_URL } from "./config.js";
 
 // Kullanıcı Bilgilerini Yükleme
@@ -23,7 +22,7 @@ async function loadUserInfo() {
         if (data.success) {
             document.querySelector(".user-info").innerHTML = `
                 <p><strong>Ad Soyad:</strong> ${data.kullanici.ad} ${data.kullanici.soyad}</p>
-                <p><strong>Okul No:</strong> ${data.kullanici.okul_no}</p>
+                <p><strong>Okul No:</strong> ${data.kullanici.okul_no || data.kullanici.id}</p>
             `;
             document.querySelector(".balance-info").innerHTML = `
                 <p><strong>Bakiye:</strong> ${parseFloat(data.kullanici.bakiye).toFixed(2)} TL</p>
@@ -37,8 +36,8 @@ async function loadUserInfo() {
     }
 }
 
-// Tekleştirilmiş Bakiye Yükleme Fonksiyonu
-async function processBalanceTopUp() {
+// Bakiye Yükleme Fonksiyonu (İSİM DEĞİŞTİRİLDİ!)
+async function handleBalanceTopUp() {
     const email = localStorage.getItem("email");
     const cardNumber = document.getElementById("card-number").value.trim();
     const expiryDate = document.getElementById("expiry-date").value.trim();
@@ -56,10 +55,10 @@ async function processBalanceTopUp() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email,
-                kart_numarasi: cardNumber,  
-                son_kullanma_tarihi: expiryDate,  
+                kart_numarasi: cardNumber,
+                son_kullanma_tarihi: expiryDate,
                 cvc,
-                yuklenecek_tutar: amount  
+                yuklenecek_tutar: amount
             }),
         });
 
@@ -67,9 +66,7 @@ async function processBalanceTopUp() {
 
         if (data.success) {
             alert("Bakiye başarıyla yüklendi!");
-            await loadUserInfo(); // Kullanıcı bilgilerini güncelle
-            await loadBalanceHistory(); // Bakiye geçmişini güncelle
-            closeTopUpForm(); // Bakiye yükleme formunu kapat
+            closeTopUpForm();
         } else {
             alert(data.message || "Bakiye yükleme başarısız oldu!");
         }
@@ -101,7 +98,7 @@ async function loadBalanceHistory() {
                 const formattedDate = formatDate(item.tarih);
 
                 const card = document.createElement("div");
-                card.className = `card ${item.islem_tipi.includes("Harcama") ? "red" : "green"}`;
+                card.className = `card ${item.islem_tipi && item.islem_tipi.includes("Harcama") ? "red" : "green"}`;
                 card.innerHTML = `
                     <p><strong>Tarih:</strong> ${formattedDate}</p>
                     <p><strong>Saat:</strong> ${item.saat || "Bilinmiyor"}</p>
@@ -111,7 +108,7 @@ async function loadBalanceHistory() {
                 transactionContainer.appendChild(card);
             });
         } else {
-            alert(data.message || "Bakiye geçmişi bulunamadı!");
+            document.querySelector(".transaction-cards").innerHTML = `<p>Bakiye geçmişi bulunamadı!</p>`;
         }
     } catch (error) {
         console.error("Bakiye geçmişi yüklenirken hata:", error);
@@ -133,9 +130,6 @@ function formatDate(tarih) {
     });
 }
 
-
-
-
 // Bakiye Yükleme Formunu Açma
 function openTopUpForm() {
     document.getElementById("top-up-form").style.display = "block";
@@ -148,19 +142,16 @@ function closeTopUpForm() {
 
 // DOM Yükleme
 document.addEventListener("DOMContentLoaded", async () => {
-    await loadUserInfo(); // Kullanıcı bilgilerini yükle
-    await loadBalanceHistory(); // Bakiye geçmişini yükle
+    await loadUserInfo();
+    await loadBalanceHistory();
 
     const topUpForm = document.getElementById("top-up-form");
     if (topUpForm) {
         topUpForm.addEventListener("submit", async (event) => {
             event.preventDefault();
-            await handleBalanceTopUp(); // Bakiye yükleme işlemi
-            await loadUserInfo(); // Güncel bilgileri yükle
-            await loadBalanceHistory(); // Güncel geçmişi yükle
-            await loadUserData();
-
+            await handleBalanceTopUp();
+            await loadUserInfo();
+            await loadBalanceHistory();
         });
     }
 });
-

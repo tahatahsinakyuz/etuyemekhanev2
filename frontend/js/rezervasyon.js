@@ -4,9 +4,8 @@ import { API_URL } from "./config.js";
 // Kullanıcı Bilgilerini Yükleme
 async function loadUserInfo() {
     const email = localStorage.getItem("email");
-    const sifre = localStorage.getItem("sifre");
 
-    if (!email || !sifre) {
+    if (!email) {
         alert("Yetkisiz giriş! Lütfen giriş yapın.");
         window.location.href = "kullanici-giris.html";
         return;
@@ -26,7 +25,6 @@ async function loadUserInfo() {
         const data = await response.json();
 
         if (data.success) {
-            // Kullanıcı bilgilerini sayfaya yerleştir
             document.querySelector(".user-info").innerHTML = `
                 <p><strong>Ad Soyad:</strong> ${data.kullanici.ad} ${data.kullanici.soyad}</p>
                 <p><strong>Okul No:</strong> ${data.kullanici.id}</p>
@@ -36,7 +34,7 @@ async function loadUserInfo() {
             `;
         } else {
             alert("Kullanıcı bilgileri alınamadı! Lütfen tekrar giriş yapın.");
-            localStorage.clear(); // Oturumu temizle
+            localStorage.clear();
             window.location.href = "kullanici-giris.html";
         }
     } catch (error) {
@@ -55,7 +53,7 @@ async function loadWeeklyMenu() {
         const data = await response.json();
 
         const calendarContainer = document.querySelector(".weekly-plan .calendar");
-        calendarContainer.innerHTML = ""; // Önceki içeriği temizle
+        calendarContainer.innerHTML = "";
 
         if (data.success && data.menu.length > 0) {
             data.menu.forEach(menu => {
@@ -71,15 +69,12 @@ async function loadWeeklyMenu() {
                             <li>${menu.extra}</li>
                         </ul>
                     </div>
-                    <p class="meal-time">Öğle: ${menu.lunchTime}</p>
-                    <p class="meal-time">Akşam: ${menu.dinnerTime}</p>
                     <button class="reserve-button" data-date="${menu.date}" data-meal="öğle">Öğle Rezervasyon Yap</button>
                     <button class="reserve-button" data-date="${menu.date}" data-meal="akşam">Akşam Rezervasyon Yap</button>
                 `;
                 calendarContainer.appendChild(day);
             });
 
-            // Rezervasyon butonlarına tıklama olaylarını ekle
             document.querySelectorAll(".reserve-button").forEach(button => {
                 button.addEventListener("click", async (event) => {
                     const tarih = event.target.dataset.date;

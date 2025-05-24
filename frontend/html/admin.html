@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="tr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Paneli</title>
-        <script src="script.js" defer></script>
-        <!-- CSS Dosyaları -->
-        <link rel="stylesheet" href="admin.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    
-        <!-- JavaScript Dosyaları -->
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/tr.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli</title>
+    <script src="/js/script.js" defer></script>
+    <!-- CSS Dosyaları -->
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-    
-        <!-- Giriş Kontrolü -->
-        <script defer>
-            document.addEventListener("DOMContentLoaded", () => {
-                if (!localStorage.getItem("sessionToken")) {
-                    alert("Yetkisiz giriş! Lütfen giriş yapın.");
-                    window.location.href = "admin-giris.html";
-                }
-            });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <!-- JavaScript Dosyaları -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/tr.js"></script>
 
-    </head>
+    <!-- Giriş Kontrolü -->
+    <script defer>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (!localStorage.getItem("sessionToken")) {
+                alert("Yetkisiz giriş! Lütfen giriş yapın.");
+                window.location.href = "/html/admin-giris.html";
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+
     
 <body>
     <div class="admin-container">
