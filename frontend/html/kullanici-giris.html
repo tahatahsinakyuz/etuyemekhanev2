@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kullanıcı Doğrulama</title>
-    <link rel="stylesheet" href="/css/giris.css"> <!-- giris.css kullanıyoruz -->
-    <script src="/js/script.js" defer></script>
+    <link rel="stylesheet" href="/css/giris.css">
+    <script>
+        // API_URL'i buradan ayarla!
+        window.API_URL = "https://etuyemekhanev2.onrender.com";
+    </script>
+    <style>
+        /* Kısa şifre göz ikonu örnek stil (isteğe bağlı) */
+        .password-toggle {
+            cursor: pointer;
+            margin-left: -25px;
+        }
+        .password-toggle::before {
+            content: '👁';
+        }
+        .password-toggle.show::before {
+            content: '🙈';
+        }
+    </style>
 </head>
-
 <body>
     <div class="login-container">
         <h1>Kullanıcı Doğrulama</h1>
@@ -16,9 +31,9 @@
             <input type="email" id="email" placeholder="E-posta adresiniz" required>
             
             <label for="sifre">Şifre</label>
-            <div class="password-container">
+            <div class="password-container" style="position:relative;">
                 <input type="password" id="sifre" placeholder="Şifreniz" required>
-                <span id="toggle-password" class="password-toggle"></span>
+                <span id="toggle-password" class="password-toggle" tabindex="0"></span>
             </div>
             
             <button type="submit">Giriş Yap</button>
@@ -26,34 +41,28 @@
         </form>
         <a href="sifre-kurtarma.html" class="forgot-password">Şifremi Unuttum</a>
     </div>
-
     <script>
-        // Şifre Gösterme Fonksiyonu
+        // Şifre Göster/Gizle
         document.getElementById('toggle-password').addEventListener('click', function () {
             const passwordInput = document.getElementById('sifre');
             const toggleIcon = document.getElementById('toggle-password');
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                toggleIcon.classList.add('show'); // İkonu değiştir
+                toggleIcon.classList.add('show');
             } else {
                 passwordInput.type = 'password';
                 toggleIcon.classList.remove('show');
             }
         });
 
-        const API_URL = "http://localhost:3000";
+        // API_URL config.js'den geliyorsa window.API_URL kullanılır
+        const API_URL = window.API_URL;
 
-        // Yönlendirme yapılacak hedef sayfa
+        // Yönlendirme yapılacak sayfa
         const params = new URLSearchParams(window.location.search);
         const targetPage = params.get("redirect") || "anasayfa.html";
 
-        function validateForm(email, sifre) {
-            if (!email || !sifre) {
-                return "Lütfen tüm alanları doldurun!";
-            }
-            return null;
-        }
-
+        // Form submit handler
         document.getElementById('kullaniciDogrulama').addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -61,10 +70,9 @@
             const sifre = document.getElementById('sifre').value.trim();
             const errorMessage = document.getElementById("error-message");
 
-            const validationError = validateForm(email, sifre);
-            if (validationError) {
+            if (!email || !sifre) {
                 errorMessage.style.display = "block";
-                errorMessage.innerText = validationError;
+                errorMessage.innerText = "Lütfen tüm alanları doldurun!";
                 return;
             }
 
@@ -72,18 +80,18 @@
                 const response = await fetch(`${API_URL}/api/kullanici-giris`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: email, sifre: sifre })
+                    body: JSON.stringify({ email, sifre })
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    errorMessage.style.display = "none"; // Hata mesajını gizle
-                    localStorage.setItem("email", email); // Email'i kaydet
+                    errorMessage.style.display = "none";
+                    localStorage.setItem("email", email);
                     alert("Giriş başarılı! Yönlendiriliyorsunuz...");
                     setTimeout(() => {
                         window.location.href = targetPage;
-                    }, 1000); // 1 saniye beklemeden sonra yönlendirme
+                    }, 1000);
                 } else {
                     errorMessage.style.display = "block";
                     errorMessage.innerText = data.message || "Giriş bilgileri hatalı!";
