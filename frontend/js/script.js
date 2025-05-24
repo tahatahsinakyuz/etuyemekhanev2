@@ -1,9 +1,4 @@
 const API_URL = window.API_URL;
-function navigateTo(url) {
-    window.location.href = url;
-}
-window.navigateTo = navigateTo;
-
 
 // Sayfa Yönlendirme
 function navigateTo(page) {

@@ -1,9 +1,6 @@
 const API_URL = window.API_URL;
 
-function navigateTo(url) {
-    window.location.href = url;
-}
-window.navigateTo = navigateTo;
+
 // Günün Menüsü Verisini Çek ve Göster
 async function loadTodayMenu() {
     try {
