@@ -23,9 +23,13 @@ const dbConfig = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    timezone: '+03:00'
+    timezone: '+03:00',
+    waitForConnections: true,
+    connectionLimit: 10,   // Aynı anda kaç bağlantı olabileceği
+    queueLimit: 0
 };
-
+// Global olarak bir pool oluştur:
+const pool = mysql.createPool(dbConfig);
 app.listen(3000, '0.0.0.0', () => {
     console.log("Sunucu çalışıyor: http://0.0.0.0:3000");
 });
