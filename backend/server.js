@@ -10,10 +10,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Örneğin: frontend dizininde html, css, js, images var.
-app.use(express.static(path.join(__dirname, '../frontend/html')));
-app.use(express.static(path.join(__dirname, '../frontend/css')));
-app.use(express.static(path.join(__dirname, '../frontend/js')));
+// Tüm frontend'i tek seferde static olarak sun!
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Ana sayfa isteğine index.html döndür ("/" isteğinde)
 app.get('/', (req, res) => {
