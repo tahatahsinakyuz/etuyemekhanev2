@@ -9,6 +9,15 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Örneğin: frontend dizininde html, css, js, images var.
+app.use(express.static(path.join(__dirname, '../frontend/html')));
+app.use(express.static(path.join(__dirname, '../frontend/css')));
+app.use(express.static(path.join(__dirname, '../frontend/js')));
+
+// Ana sayfa isteğine index.html döndür ("/" isteğinde)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/html/index.html'));
+});
 // Veritabanı bağlantısı ayarları
 const dbConfig = {
     host: process.env.DB_HOST,
