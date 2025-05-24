@@ -1,5 +1,8 @@
-// API URL Tanımı
-import { API_URL } from "./config.js";
+const API_URL = window.API_URL;
+function navigateTo(url) {
+    window.location.href = url;
+}
+window.navigateTo = navigateTo;
 
 // Kullanıcı Bilgilerini Yükleme
 async function loadUserInfo() {
